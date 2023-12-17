@@ -1,0 +1,12 @@
+ru:
+  activerecord:
+    attributes:
+      request:
+        status: 
+          newly_created: 'Новая'
+          in_progress: 'В работе'
+          client_review: 'Клиент проверяет'
+          closed: 'Закрыта'
+        request_type:
+          emergency: 'Экстренная'
+          maintenance: 'Плановое обслуживание'

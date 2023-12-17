@@ -1,0 +1,1 @@
+//= link controllers/application.js

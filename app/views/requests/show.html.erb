@@ -1,0 +1,19 @@
+<h1><%= @request.title %></h1>
+
+<p>
+  <strong>Описание:</strong>
+  <%= @request.description %>
+</p>
+
+<p>
+  <strong>Статус:</strong>
+  <%= @request.status %>
+</p>
+
+<p>
+  <strong>Тип:</strong>
+  <%= @request.request_type %>
+</p>
+
+<%= link_to 'Изменить', edit_request_path(@request) %> |
+<%= link_to 'Назад', requests_path %>
