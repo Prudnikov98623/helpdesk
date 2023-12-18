@@ -1,0 +1,64 @@
+<!-- app/views/transfer_requests/new.html.erb -->
+
+<h1>Передача заявки</h1>
+
+<p>Привет, <%= current_user.email %></p>
+
+<%= form_tag request_transfer_requests_path(@request), method: :post do %>
+
+
+    <div class="field role_wrap">
+      <%= label_tag :role_id, 'Выберите роль:' %>
+      <%= select_tag :role_id, options_from_collection_for_select(@roles, 'id', 'role_name', params[:role_id]), id: 'role-select' %>
+    </div>
+
+
+  <div class="field">
+    <%= label_tag :target_user_id, 'Выберите пользователя:' %>
+    <%= select_tag :target_user_id, options_for_select([]), prompt: 'Select User', id: 'user-select' %>
+  </div>
+
+  <%= hidden_field_tag :request_id, @request.id %>
+
+  <%= submit_tag 'Передать', class: 'btn btn-primary' %>
+<% end %>
+
+<%= link_to 'Отмена', request_path(@request), class: 'btn btn-secondary' %>
+
+<!-- app/views/transfer_requests/new.html.erb -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var roleSelect = document.getElementById('role-select');
+    var userSelect = document.getElementById('user-select');
+
+    // Функция для обновления списка пользователей
+    function updateUsers() {
+      var selectedRoleId = roleSelect.value;
+
+      // Запрос на сервер для получения пользователей этой роли
+      fetch('/users_by_role.json?role_id=' + selectedRoleId)
+        .then(response => response.json())
+        .then(data => {
+          // Очистка и обновление списка пользователей
+          userSelect.innerHTML = '';
+          data.forEach(function (user) {
+            var option = document.createElement('option');
+            option.value = user[0];
+            option.text = user[1];
+            userSelect.add(option);
+          });
+        });
+    }
+
+    // Обновление списка при изменении выбранной роли
+    roleSelect.addEventListener('change', function () {
+      updateUsers();
+    });
+
+    // Если текущий пользователь - "Первая линия", обновляем список при загрузке страницы
+    if (roleSelect.value === 'Первая линия') {
+      updateUsers();
+    }
+  });
+</script>

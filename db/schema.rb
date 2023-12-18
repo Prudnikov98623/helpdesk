@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_18_114753) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_18_143615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,13 +22,24 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_18_114753) do
     t.bigint "responsible_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "target_user_id"
     t.index ["responsible_user_id"], name: "index_requests_on_responsible_user_id"
+    t.index ["target_user_id"], name: "index_requests_on_target_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "role_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "transfer_requests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "request_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_transfer_requests_on_request_id"
+    t.index ["user_id"], name: "index_transfer_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,5 +57,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_18_114753) do
   end
 
   add_foreign_key "requests", "users", column: "responsible_user_id"
+  add_foreign_key "requests", "users", column: "target_user_id"
+  add_foreign_key "transfer_requests", "requests"
+  add_foreign_key "transfer_requests", "users"
   add_foreign_key "users", "roles"
 end

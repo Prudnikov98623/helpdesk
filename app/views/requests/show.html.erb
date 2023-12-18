@@ -25,6 +25,8 @@
 </div>
 
 <div class="request-actions">
+  <%= link_to 'Передать заявку', new_request_transfer_request_path(@request), class: 'btn btn-warning' %>
   <%= link_to 'Изменить', edit_request_path(@request), class: 'btn btn-primary' %>
   <%= link_to 'Назад', requests_path, class: 'btn btn-secondary' %>
 </div>
+
