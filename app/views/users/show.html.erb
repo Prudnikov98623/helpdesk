@@ -1,0 +1,29 @@
+<!-- app/views/users/show.html.erb -->
+
+<div class="profile-container">
+  <h1 class="profile-header">Профиль пользователя</h1>
+
+  <p>
+    <span class="profile-label">Логин:</span>
+    <%= @user.email %>
+  </p>
+
+  <p>
+    <span class="profile-label">Роль:</span>
+    <%= @user.role.role_name %>
+  </p>
+
+  <h2 class="profile-tasks">Мои задачи</h2>
+
+  <% if @requests.any? %>
+    <ul>
+      <% @requests.each do |request| %>
+        <li><%= link_to request.title, request %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Нет задач.</p>
+  <% end %>
+
+  <%= link_to 'Вернуться назад', :back, class: 'btn btn-secondary' %>
+</div>

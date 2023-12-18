@@ -4,7 +4,8 @@ class CreateRequests < ActiveRecord::Migration[7.1]
       t.string :title
       t.text :description
       t.string :status
-      t.string :type
+      t.string :request_type
+      t.references :responsible_user, foreign_key: { to_table: :users }
 
       t.timestamps
     end

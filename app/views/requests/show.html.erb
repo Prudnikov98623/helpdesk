@@ -1,19 +1,30 @@
+<!-- app/views/requests/show.html.erb -->
+
 <h1><%= @request.title %></h1>
 
-<p>
-  <strong>Описание:</strong>
-  <%= @request.description %>
-</p>
+<div class="request-details">
+  <p>
+    <strong>Описание:</strong>
+    <%= @request.description %>
+  </p>
 
-<p>
-  <strong>Статус:</strong>
-  <%= @request.status %>
-</p>
+  <p>
+    <strong>Статус:</strong>
+    <%= Request.statuses[@request.status].humanize %>
+  </p>
 
-<p>
-  <strong>Тип:</strong>
-  <%= @request.request_type %>
-</p>
+  <p>
+    <strong>Тип:</strong>
+    <%= Request.request_types[@request.request_type].humanize %>
+  </p>
 
-<%= link_to 'Изменить', edit_request_path(@request) %> |
-<%= link_to 'Назад', requests_path %>
+  <p>
+    <span class="profile-label">Ответственный:</span>
+    <%= @user.role.role_name %> - <%= @user.email %>
+  </p>
+</div>
+
+<div class="request-actions">
+  <%= link_to 'Изменить', edit_request_path(@request), class: 'btn btn-primary' %>
+  <%= link_to 'Назад', requests_path, class: 'btn btn-secondary' %>
+</div>

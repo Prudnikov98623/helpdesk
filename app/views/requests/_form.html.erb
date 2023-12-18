@@ -1,6 +1,6 @@
-<%= form_with(model: request, local: true) do |form| %>
+<%= form_with(model: request, local: true, class: 'request-form') do |form| %>
   <% if request.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(request.errors.count, "error") %> не позволяет сохранить эту заявку:</h2>
 
       <ul>
@@ -13,26 +13,30 @@
 
   <div class="field">
     <%= form.label :title, "Заголовок" %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: 'form-control' %>
   </div>
 
   <div class="field">
     <%= form.label :description, "Описание" %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, class: 'form-control' %>
   </div>
 
-<div class="field">
-  <%= form.label :status, "Статус" %>
-  <%= form.select :status, Request.statuses.keys.map { |status| [Request.statuses[status].humanize, status] } %>
-</div>
+  <div class="field">
+    <%= form.label :status, "Статус" %>
+    <%= form.select :status, Request.statuses.keys.map { |status| [Request.statuses[status].humanize, status] }, {}, class: 'form-control' %>
+  </div>
 
-<div class="field">
-  <%= form.label :request_type, "Тип" %>
-  <%= form.select :request_type, Request.request_types.keys.map { |type| [Request.request_types[type].humanize, type] } %>
-</div>
+  <div class="field">
+    <%= form.label :request_type, "Тип" %>
+    <%= form.select :request_type, Request.request_types.keys.map { |type| [Request.request_types[type].humanize, type] }, {}, class: 'form-control' %>
+  </div>
 
+  <div class="field">
+    <label for="responsible_user_id">Выберите ответственного</label>
+    <%= form.collection_select(:responsible_user_id, User.all, :id, :email, { prompt: 'Выберите пользователя' }, class: 'form-control') %>
+  </div>
 
   <div class="actions">
-    <%= form.submit "Создать заявку" %>
+    <%= form.submit "Применить", class: 'btn btn-primary' %>
   </div>
 <% end %>

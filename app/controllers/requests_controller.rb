@@ -9,6 +9,7 @@ class RequestsController < ApplicationController
 
   def show
     @request = Request.find(params[:id])
+    @user = @request.responsible_user if @request.responsible_user
   end
 
   def new
@@ -47,7 +48,7 @@ class RequestsController < ApplicationController
   private
 
   def request_params
-    params.require(:request).permit(:title, :description, :status, :request_type)
+    params.require(:request).permit(:title, :description, :status, :request_type, :responsible_user_id)
   end
 
 end
