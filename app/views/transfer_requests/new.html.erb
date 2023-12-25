@@ -2,12 +2,12 @@
 
 <h1>Передача заявки</h1>
 
-<p>Привет, <%= current_user.email %></p>
+<p>Привет, <%= current_user.email %> - <%= current_user.role.role_name%></p>
 
 <%= form_tag request_transfer_requests_path(@request), method: :post do %>
 
 
-    <div class="field role_wrap">
+    <div class="field role_wrap" id="role">
       <%= label_tag :role_id, 'Выберите роль:' %>
       <%= select_tag :role_id, options_from_collection_for_select(@roles, 'id', 'role_name', params[:role_id]), id: 'role-select' %>
     </div>
@@ -29,12 +29,53 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+     var current_user = {
+        role: {
+          role_name: '<%= current_user.role.role_name %>'
+        }
+      };
+    var role_name = current_user.role.role_name;
     var roleSelect = document.getElementById('role-select');
+    var roleWrap = document.getElementById('role');
     var userSelect = document.getElementById('user-select');
+
+
 
     // Функция для обновления списка пользователей
     function updateUsers() {
-      var selectedRoleId = roleSelect.value;
+      var selectedRoleId = role_name;
+      var selectedOption = roleSelect.options[roleSelect.selectedIndex];
+
+     
+
+      if (selectedRoleId === "Менеджер") {
+        if (selectedOption.text === "Первая линия") {
+          selectedRoleId = 2;
+        }
+        if (selectedOption.text === "Вторая линия") {
+          selectedRoleId = 3;
+        } 
+        if (selectedOption.text === "Третия линия") {
+          selectedRoleId = 4;
+        }
+      } else {
+         if (selectedRoleId === "Первая линия") {
+         selectedRoleId = 3;
+         roleWrap.style.display = "none";
+          }
+          if (selectedRoleId === "Вторая  линия") {
+            selectedRoleId = 4;
+            roleWrap.style.display = "none";
+          } 
+          if (selectedRoleId === "Третия  линия") {
+            roleWrap.style.display = "none";
+            selectedRoleId = 1;
+          } 
+      }
+     
+
+      console.log(selectedRoleId);
+      console.log(selectedOption.text);
 
       // Запрос на сервер для получения пользователей этой роли
       fetch('/users_by_role.json?role_id=' + selectedRoleId)
@@ -49,6 +90,8 @@
             userSelect.add(option);
           });
         });
+
+           
     }
 
     // Обновление списка при изменении выбранной роли
@@ -56,9 +99,10 @@
       updateUsers();
     });
 
-    // Если текущий пользователь - "Первая линия", обновляем список при загрузке страницы
-    if (roleSelect.value === 'Первая линия') {
+    
+    if (roleSelect.value) {
       updateUsers();
     }
+ 
   });
 </script>

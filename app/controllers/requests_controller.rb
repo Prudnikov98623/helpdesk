@@ -10,11 +10,11 @@ class RequestsController < ApplicationController
     when 'Первая линия'
       @requests = Request.where(responsible_user_id: current_user.id)
     when 'Вторая линия'
-      @requests = Request.joins(:responsible_user).where(users: { role_id: Role.find_by(role_name: 'Третья линия').id })
+      @requests = Request.where(responsible_user_id: current_user.id)
     when 'Третья линия'
-      @requests = Request.none # Третья линия не видит заявки других линий
+      @requests = Request.where(responsible_user_id: current_user.id)
     else
-      @requests = Request.none # Для других ролей не предусмотрено видение заявок
+      @requests = Request.where(responsible_user_id: current_user.id)
     end
   end
 

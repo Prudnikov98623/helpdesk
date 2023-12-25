@@ -1,28 +1,26 @@
+<!-- app/views/devise/registrations/new.html.erb -->
+
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-
-  <!-- Другие поля для регистрации (например, email и password) -->
-
   <div class="field">
-   <%= f.collection_select :role_id, Role.all, :id, :role_name, prompt: "Select a role" %>
+    <%= f.collection_select :role_id, Role.all, :id, :role_name, prompt: "Select a role", class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.label :email, class: "form-label" %>
+    <%= f.email_field :email, autofocus: true, class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%= f.label :password, class: "form-label" %>
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.label :password_confirmation, class: "form-label" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up", class: "btn btn-primary" %>
   </div>
-
 <% end %>

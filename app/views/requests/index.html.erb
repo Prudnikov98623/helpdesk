@@ -1,7 +1,7 @@
 <!-- app/views/requests/index.html.erb -->
 
-<h1>Список Заявок</h1>
-<p>Привет, <%= current_user.email %></p>
+<h1>Заявки</h1>
+<p>Привет, <%= current_user.email %> ----  <%= current_user.role.role_name %></p>
 <table>
   <tr>
     <th>Заголовок</th>
@@ -9,7 +9,7 @@
     <th>Статус</th>
     <th>Тип</th>
     <th>Ответственный</th>
-    <th colspan="3"></th>
+    <th colspan="4"></th>
   </tr>
 
   <% @requests.each do |request| %>
@@ -19,6 +19,7 @@
       <td><%= Request.statuses[request.status].humanize %></td>
       <td><%= Request.request_types[request.request_type].humanize %></td>
       <td><%= "#{request.responsible_user.role.humanize} - #{request.responsible_user.email}" if request.responsible_user %></td>
+      <td><%= link_to 'Передать заявку', new_request_transfer_request_path(request, request_id: request.id), class: 'btn btn-primary' %></td>
       <td><%= link_to 'Показать', request, class: 'btn btn-primary' %></td>
       <td><%= link_to 'Изменить', edit_request_path(request), class: 'btn btn-primary' %></td>
       <td>
@@ -28,6 +29,7 @@
       </td>
     </tr>
   <% end %>
+  
 </table>
 
 <%= link_to 'Новая Заявка', new_request_path, class: 'btn btn-primary' %>
